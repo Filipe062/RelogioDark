@@ -69,3 +69,33 @@ function verificarAniversario() {
 
   document.getElementById("mensagem-aniversario").textContent = msg;
 }
+
+
+const botaoTema = document.getElementById('toggle-tema');
+
+function aplicarTema() {
+  const tema = localStorage.getItem('tema');
+  if (tema === 'dark') {
+    document.body.classList.add('dark');
+    botaoTema.textContent = '🌚 Alternar Tema';
+  } else {
+    document.body.classList.remove('dark');
+    botaoTema.textContent = '🌞 Alternar Tema';
+  }
+}
+
+botaoTema.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  if (document.body.classList.contains('dark')) {
+    localStorage.setItem('tema', 'dark');
+    botaoTema.textContent = '🌚 Alternar Tema';
+  } else {
+    localStorage.setItem('tema', 'light');
+    botaoTema.textContent = '🌞 Alternar Tema';
+  }
+});
+
+// Aplica o tema salvo ao carregar a página
+aplicarTema();
+
+
