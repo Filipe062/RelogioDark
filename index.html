@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Relógio Digital</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto JavaScript: Data & Hora</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1 id="relogio">00:00:00</h1>
-    <p id="data">Dia Mês, Ano</p>
-    <button id="toggle-tema">
-      <span id="icone-tema">🌞</span> Alternar Tema
-    </button>
+    <h1>Projeto JavaScript - Relógio, Idade e Aniversário 🎉</h1>
+
+    <!-- Cronômetro -->
+    <section class="bloco">
+      <h2>⏱️ Cronômetro</h2>
+      <h3 id="cronometro">00:00:00</h3>
+      <div class="botoes">
+        <button onclick="iniciar()">▶️ Iniciar</button>
+        <button onclick="pausar()">⏸️ Pausar</button>
+        <button onclick="resetar()">🔄 Resetar</button>
+      </div>
+    </section>
+
+    <!-- Idade -->
+    <section class="bloco">
+      <h2>🎂 Calcular Idade</h2>
+      <input type="date" id="data-nascimento">
+      <button onclick="calcularIdade()">Calcular</button>
+      <p id="idade"></p>
+    </section>
+
+    <!-- Aniversário -->
+    <section class="bloco">
+      <h2>🎉 Verificar Aniversário</h2>
+      <input type="date" id="data-aniversario">
+      <button onclick="verificarAniversario()">Verificar</button>
+      <p id="mensagem-aniversario"></p>
+    </section>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>

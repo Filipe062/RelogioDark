@@ -1,33 +1,71 @@
-function atualizarRelogio() {
-  const agora = new Date();
-  const horas = String(agora.getHours()).padStart(2, '0');
-  const minutos = String(agora.getMinutes()).padStart(2, '0');
-  const segundos = String(agora.getSeconds()).padStart(2, '0');
+// ---------- CRONÔMETRO ----------
+let segundos = 0;
+let timer = null;
 
-  document.getElementById('relogio').textContent = `${horas}:${minutos}:${segundos}`;
-
-  const opcoesData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const dataFormatada = agora.toLocaleDateString('pt-BR', opcoesData);
-  document.getElementById('data').textContent = dataFormatada;
+function formatarTempo(seg) {
+  const h = String(Math.floor(seg / 3600)).padStart(2, '0');
+  const m = String(Math.floor((seg % 3600) / 60)).padStart(2, '0');
+  const s = String(seg % 60).padStart(2, '0');
+  return `${h}:${m}:${s}`;
 }
 
-// Atualiza o relógio a cada segundo
-setInterval(atualizarRelogio, 1000);
-atualizarRelogio(); // primeira execução
-
-// Alternar tema e salvar no localStorage
-const botaoTema = document.getElementById('toggle-tema');
-const iconeTema = document.getElementById('icone-tema');
-
-// Carregar tema salvo
-if (localStorage.getItem('tema') === 'dark') {
-  document.body.classList.add('dark');
-  iconeTema.textContent = '🌚';
+function atualizarCronometro() {
+  document.getElementById("cronometro").textContent = formatarTempo(segundos);
 }
 
-botaoTema.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  const temaAtual = document.body.classList.contains('dark') ? 'dark' : 'light';
-  localStorage.setItem('tema', temaAtual);
-  iconeTema.textContent = temaAtual === 'dark' ? '🌚' : '🌞';
-});
+function iniciar() {
+  if (timer) return; // se já estiver rodando, não faz nada
+  timer = setInterval(() => {
+    segundos++;
+    atualizarCronometro();
+  }, 1000);
+}
+
+function pausar() {
+  clearInterval(timer);
+  timer = null;
+}
+
+function resetar() {
+  pausar();
+  segundos = 0;
+  atualizarCronometro();
+}
+
+// ---------- CALCULAR IDADE ----------
+function calcularIdade() {
+  const input = document.getElementById("data-nascimento").value;
+  if (!input) return alert("Por favor, selecione sua data de nascimento.");
+
+  const nascimento = new Date(input);
+  const hoje = new Date();
+
+  let idade = hoje.getFullYear() - nascimento.getFullYear();
+  const mes = hoje.getMonth() - nascimento.getMonth();
+
+  if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
+    idade--;
+  }
+
+  document.getElementById("idade").textContent = `Você tem ${idade} anos.`;
+}
+
+// ---------- VERIFICAR ANIVERSÁRIO ----------
+function verificarAniversario() {
+  const input = document.getElementById("data-aniversario").value;
+  if (!input) return alert("Digite sua data de nascimento.");
+
+  const hoje = new Date();
+  const aniversario = new Date(input);
+
+  const diaHoje = hoje.getDate();
+  const mesHoje = hoje.getMonth();
+  const diaNasc = aniversario.getDate();
+  const mesNasc = aniversario.getMonth();
+
+  const msg = diaHoje === diaNasc && mesHoje === mesNasc
+    ? "🎉 Feliz Aniversário, Luiz! 🥳"
+    : "Ainda não é seu aniversário.";
+
+  document.getElementById("mensagem-aniversario").textContent = msg;
+}
